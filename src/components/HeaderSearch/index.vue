@@ -1,0 +1,221 @@
+<template>
+  <div :class="{ show: show }" class="header-search">
+    show {{ show }}
+    <svg-icon name="search" class="search-icon" @click="click" />
+    <el-select
+      ref="headerSearchSelect"
+      v-model="search"
+      :remote-method="querySearch"
+      filterable
+      default-first-option
+      remote
+      placeholder="Search"
+      class="header-search-select"
+      @change="change"
+    >
+      <el-option v-for="item in options" :key="item.path" :value="item" :label="item.title.join(' > ')" />
+    </el-select>
+  </div>
+</template>
+
+<script lang="ts">
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import { ElSelect } from 'element-ui/types/select'
+import { RouteConfig } from 'vue-router'
+import Fuse from 'fuse.js'
+import path from 'path'
+
+@Component({
+  name: 'HeaderSearch'
+})
+export default class HeaderSearch extends Vue {
+  search: string = ''
+  options: RouteConfig[] = []
+  searchPool: RouteConfig[] = []
+  show: boolean = false
+  fuse?: any
+
+  get routers() {
+    return this.$store.getters.permission_routers
+  }
+
+  get lang() {
+    return this.$store.getters.language
+  }
+
+  @Watch('lang')
+  onLangChange() {
+    this.searchPool = this.generateRouters(this.routers)
+  }
+
+  @Watch('routers')
+  onRoutersChange() {
+    this.searchPool = this.generateRouters(this.routers)
+  }
+
+  @Watch('searchPool')
+  onSearchPoolChange(list) {
+    this.initFuse(list)
+  }
+
+  @Watch('show')
+  onShowChange(value) {
+    if (value) {
+      document.body.addEventListener('click', this.close)
+    } else {
+      document.body.removeEventListener('click', this.close)
+    }
+    console.log('onShowChange value', value)
+  }
+
+  mounted() {
+    this.searchPool = this.generateRouters(this.routers)
+  }
+
+  click(e) {
+    e.stopPropagation()
+    this.show = !this.show
+    console.log('click', this.show)
+    if (this.show) {
+      const searchSelect = this.$refs.headerSearchSelect as ElSelect
+      searchSelect && searchSelect.focus()
+    }
+  }
+
+  close() {
+    if (this.show) {
+      const searchSelect = this.$refs.headerSearchSelect as ElSelect
+      searchSelect && searchSelect.blur()
+      this.options = []
+      this.show = false
+    }
+  }
+
+  change(val) {
+    this.$router.push(val.path)
+    this.search = ''
+    this.options = []
+    this.$nextTick(() => {
+      this.show = false
+    })
+  }
+
+  initFuse(list) {
+    const options: any = {
+      shouldSort: true,
+      threshold: 0.4,
+      location: 0,
+      distance: 100,
+      maxPatternLength: 32,
+      minMatchCharLength: 1,
+      keys: [
+        {
+          name: 'title',
+          weight: 0.7
+        },
+        {
+          name: 'path',
+          weight: 0.3
+        }
+      ]
+    }
+
+    this.fuse = new Fuse(list, options)
+  }
+
+  // Filter out the routes that can be displayed in the sidebar
+  // And generate the internationalized title
+  generateRouters(routers, basePath = '/', prefixTitle: any[] = []) {
+    let res: any[] = []
+
+    for (const router of routers) {
+      // skip hidden router
+      if (router.hidden) {
+        continue
+      }
+
+      const data: RouteConfig = {
+        path: path.resolve(basePath, router.path),
+        meta: {
+          title: [...prefixTitle]
+        }
+      }
+
+      if (router.meta && router.meta.title) {
+        // generate internationalized title
+
+        data.meta.title = [...data.meta.title]
+
+        if (router.redirect !== 'noredirect') {
+          // only push the routes with title
+          // special case: need to exclude parent router without redirect
+          res.push(data)
+        }
+      }
+
+      // recursive child routers
+      if (router.children) {
+        const tempRouters = this.generateRouters(router.children, data.path, data.meta.title)
+        if (tempRouters.length >= 1) {
+          res = [...res, ...tempRouters]
+        }
+      }
+    }
+    return res
+  }
+
+  querySearch(query) {
+    if (query !== '') {
+      if (this.fuse) {
+        this.options = this.fuse.search(query)
+      }
+    } else {
+      this.options = []
+    }
+  }
+
+  beforeDestroy() {
+    document.body.removeEventListener('click', this.close)
+  }
+}
+</script>
+
+<style lang="less" scoped>
+.header-search {
+  font-size: 0 !important;
+
+  .search-icon {
+    cursor: pointer;
+    font-size: 18px;
+    vertical-align: middle;
+  }
+
+  .header-search-select {
+    font-size: 18px;
+    transition: width 0.2s;
+    width: 0;
+    overflow: hidden;
+    background: transparent;
+    border-radius: 0;
+    display: inline-block;
+    vertical-align: middle;
+
+    /deep/ .el-input__inner {
+      border-radius: 0;
+      border: 0;
+      padding-left: 0;
+      padding-right: 0;
+      box-shadow: none !important;
+      border-bottom: 1px solid #d9d9d9;
+      vertical-align: middle;
+    }
+  }
+
+  &.show {
+    .header-search-select {
+      width: 210px;
+      margin-left: 10px;
+    }
+  }
+}
+</style>
