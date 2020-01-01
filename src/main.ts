@@ -20,7 +20,7 @@ import { mockXHR } from '../mock'
 Component.registerHooks(['beforeRouteEnter', 'beforeRouteLeave', 'beforeRouteUpdate'])
 
 // mock api in github pages site build
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'development') {
   mockXHR()
 }
 

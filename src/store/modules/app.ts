@@ -1,4 +1,4 @@
-import { setLanguage, getSidebarStatus, setSidebarStatus, getSize, setSize } from '@/utils/auth'
+import { getSidebarStatus, setSidebarStatus, getSize, setSize } from '@/utils/auth'
 import { VuexModule, Module, Action, Mutation, getModule } from 'vuex-module-decorators'
 import store from '@/store'
 
@@ -50,13 +50,6 @@ class App extends VuexModule implements IAppState {
   })
   ToggleDevice(device: DeviceType) {
     return device
-  }
-
-  @Action({
-    commit: 'SET_LANGUAGE'
-  })
-  SetLanguage(language: string) {
-    return language
   }
 
   @Action({

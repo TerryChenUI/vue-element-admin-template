@@ -4,7 +4,6 @@ import store from 'store'
 const { name } = pkg
 
 const TokenKey = `${name}/Admin-Token`
-const LANGUAGE = `${name}/language`
 const SIZE = `${name}/size`
 const SIDEBAR_STATUS = `${name}/sidebarStatus`
 
@@ -18,10 +17,6 @@ export function setToken(token: string) {
 
 export function removeToken() {
   return store.remove(TokenKey)
-}
-
-export function setLanguage(language: string) {
-  return store.set(LANGUAGE, language)
 }
 
 // getLanguage -> @/lang/index

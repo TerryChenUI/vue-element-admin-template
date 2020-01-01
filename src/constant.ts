@@ -1,6 +1,6 @@
 /**
  *
- * @authors liwb (lwbhtml@gmail.com)
+ * @authors
  * @date    2018/6/5 上午10:43
  * @description 定义项目所需常量
  */
