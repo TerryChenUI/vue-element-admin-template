@@ -1,8 +1,12 @@
 <template>
-  <div v-if="errorLogs.length>0">
-    <el-badge :is-dot="true" style="line-height: 25px;margin-top: -5px;" @click.native="dialogTableVisible=true">
+  <div v-if="errorLogs.length > 0">
+    <el-badge
+      :is-dot="true"
+      style="line-height: 25px;margin-top: -5px;"
+      @click.native="dialogTableVisible = true"
+    >
       <el-button style="padding: 8px 10px;" size="small" type="danger">
-        <svg-icon name="bug"/>
+        <svg-icon name="bug" />
       </el-button>
     </el-badge>
 
@@ -14,12 +18,16 @@
               <span class="message-title">Msg:</span>
               <el-tag type="danger">{{ scope.row.err.message }}</el-tag>
             </div>
-            <br>
+            <br />
             <div>
               <span class="message-title" style="padding-right: 10px;">Info: </span>
-              <el-tag type="warning">{{ scope.row.vm.$vnode.tag }} error in {{ scope.row.info }}</el-tag>
+              <el-tag type="warning"
+                >{{ scope.row.vm.$vnode.tag }}
+                error in
+                {{ scope.row.info }}</el-tag
+              >
             </div>
-            <br>
+            <br />
             <div>
               <span class="message-title" style="padding-right: 16px;">Url: </span>
               <el-tag type="success">{{ scope.row.url }}</el-tag>
@@ -37,24 +45,24 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class ErrorLog extends Vue {
-  dialogTableVisible: boolean = false;
+  dialogTableVisible: boolean = false
 
   get errorLogs() {
     // console.log('this.$store.getters', this.$store.getters);
-    return this.$store.getters.errorLogs || [];
+    return this.$store.getters.errorLogs || []
   }
 }
 </script>
 
 <style scoped>
-  .message-title {
-    font-size: 16px;
-    color: #333;
-    font-weight: bold;
-    padding-right: 8px;
-  }
+.message-title {
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+  padding-right: 8px;
+}
 </style>

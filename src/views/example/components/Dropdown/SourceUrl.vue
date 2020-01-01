@@ -2,7 +2,7 @@
   <el-dropdown :show-timeout="100" trigger="click">
     <el-button plain>
       外链
-      <i class="el-icon-caret-bottom el-icon--right"/>
+      <i class="el-icon-caret-bottom el-icon--right" />
     </el-button>
     <el-dropdown-menu slot="dropdown" class="no-padding no-border" style="width:400px">
       <el-form-item label-width="0px" style="margin-bottom: 0px" prop="source_uri">
@@ -15,22 +15,23 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
-  @Component
-  export default class SourceUrl extends Vue {
-    @Prop({default: ''}) value!: string;
+@Component
+export default class SourceUrl extends Vue {
+  @Prop({
+    default: ''
+  })
+  value!: string
 
-    get sourceUri() {
-      return this.value;
-    }
-
-    set sourceUri(val) {
-      this.$emit('input', val);
-    }
+  get sourceUri() {
+    return this.value
   }
+
+  set sourceUri(val) {
+    this.$emit('input', val)
+  }
+}
 </script>
 
-<style rel="stylesheet/less" lang="less" scoped>
-
-</style>
+<style rel="stylesheet/less" lang="less" scoped></style>

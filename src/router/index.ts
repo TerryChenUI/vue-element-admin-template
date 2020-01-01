@@ -60,7 +60,11 @@ export const constantRouterMap = [
         path: 'dashboard',
         component: loadView('dashboard'),
         name: 'Dashboard',
-        meta: { title: '首页', icon: 'dashboard', noCache: true }
+        meta: {
+          title: '首页',
+          icon: 'dashboard',
+          noCache: true
+        }
       }
     ]
   },
@@ -91,20 +95,29 @@ export const asyncRouterMap = [
         path: 'create',
         component: () => import('@/views/example/create.vue'),
         name: 'CreateArticle',
-        meta: { title: '创建文章', icon: 'edit' }
+        meta: {
+          title: '创建文章',
+          icon: 'edit'
+        }
       },
       {
         path: 'edit/:id(\\d+)',
         component: () => import('@/views/example/edit.vue'),
         name: 'EditArticle',
-        meta: { title: '编辑文章', noCache: true },
+        meta: {
+          title: '编辑文章',
+          noCache: true
+        },
         hidden: true
       },
       {
         path: 'list',
         component: () => import('@/views/example/list.vue'),
         name: 'ArticleList',
-        meta: { title: '文章列表', icon: 'list' }
+        meta: {
+          title: '文章列表',
+          icon: 'list'
+        }
       }
     ]
   },
@@ -122,23 +135,36 @@ export const asyncRouterMap = [
         path: '401',
         component: () => import('@/views/errorPage/401.vue'),
         name: 'Page401',
-        meta: { title: '401', noCache: true }
+        meta: {
+          title: '401',
+          noCache: true
+        }
       },
       {
         path: '404',
         component: () => import('@/views/errorPage/404.vue'),
         name: 'Page404',
-        meta: { title: '404', noCache: true }
+        meta: {
+          title: '404',
+          noCache: true
+        }
       }
     ]
   },
-  { path: '*', redirect: '/404', hidden: true }
+  {
+    path: '*',
+    redirect: '/404',
+    hidden: true
+  }
 ]
 
 const createRouter: any = () =>
   new Router({
     // mode: 'history', // require service support
-    scrollBehavior: () => ({ x: 0, y: 0 }),
+    scrollBehavior: () => ({
+      x: 0,
+      y: 0
+    }),
     routes: constantRouterMap
   })
 

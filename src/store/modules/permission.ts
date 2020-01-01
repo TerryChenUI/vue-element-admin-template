@@ -1,7 +1,7 @@
-import {getModule, Module, VuexModule, Mutation, Action} from 'vuex-module-decorators';
-import {asyncRouterMap, constantRouterMap} from '@/router';
-import { RouteConfig } from 'vue-router';
-import store from '@/store';
+import { getModule, Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
+import { asyncRouterMap, constantRouterMap } from '@/router'
+import { RouteConfig } from 'vue-router'
+import store from '@/store'
 
 /**
  * 通过meta.role判断是否与当前用户权限匹配
@@ -10,9 +10,9 @@ import store from '@/store';
  */
 function hasPermission(roles: string[], route: RouteConfig) {
   if (route.meta && route.meta.roles) {
-    return roles.some((role) => route.meta.roles.includes(role));
+    return roles.some(role => route.meta.roles.includes(role))
   } else {
-    return true;
+    return true
   }
 }
 
@@ -22,49 +22,57 @@ function hasPermission(roles: string[], route: RouteConfig) {
  * @param roles
  */
 export function filterAsyncRoutes(routes: RouteConfig[], roles: string[]) {
-  const res: RouteConfig[] = [];
+  const res: RouteConfig[] = []
 
-  routes.forEach((route) => {
-    const tmp: RouteConfig = {...route};
+  routes.forEach(route => {
+    const tmp: RouteConfig = {
+      ...route
+    }
     if (hasPermission(roles, tmp)) {
       if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, roles);
+        tmp.children = filterAsyncRoutes(tmp.children, roles)
       }
-      res.push(tmp);
+      res.push(tmp)
     }
-  });
+  })
 
-  return res;
+  return res
 }
 
 export interface IPermissionState {
-  routes: RouteConfig[];
-  dynamicRoutes: RouteConfig[];
+  routes: RouteConfig[]
+  dynamicRoutes: RouteConfig[]
 }
 
-@Module({dynamic: true, store, name: 'permission'})
+@Module({
+  dynamic: true,
+  store,
+  name: 'permission'
+})
 class Permission extends VuexModule implements IPermissionState {
-  routes = [];
-  dynamicRoutes = [];
+  routes = []
+  dynamicRoutes = []
 
-  @Action({commit: 'SET_ROUTERS'})
+  @Action({
+    commit: 'SET_ROUTERS'
+  })
   GenerateRoutes(roles) {
     // console.log('GenerateRoutes', roles);
-    let accessedRoutes;
+    let accessedRoutes
     if (roles.includes('admin')) {
-      accessedRoutes = asyncRouterMap;
+      accessedRoutes = asyncRouterMap
     } else {
-      accessedRoutes = filterAsyncRoutes(asyncRouterMap, roles);
+      accessedRoutes = filterAsyncRoutes(asyncRouterMap, roles)
     }
 
-    return accessedRoutes;
+    return accessedRoutes
   }
 
   @Mutation
   private SET_ROUTERS(routes) {
-    this.routes = (constantRouterMap as any).concat(routes);
-    this.dynamicRoutes = routes;
+    this.routes = (constantRouterMap as any).concat(routes)
+    this.dynamicRoutes = routes
   }
 }
 
-export const PermissionModule = getModule(Permission);
+export const PermissionModule = getModule(Permission)

@@ -77,8 +77,10 @@ export default class Navbar extends Vue {
   @Getter name
   @Getter avatar
   @Getter device
-  @Action('ToggleSideBar') actionToggleSideBar
-  @Action('LogOut') actionLogOut
+  @Action('ToggleSideBar')
+  actionToggleSideBar
+  @Action('LogOut')
+  actionLogOut
 
   toggleSideBar() {
     this.actionToggleSideBar(false)

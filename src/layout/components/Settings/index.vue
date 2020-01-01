@@ -1,7 +1,9 @@
 <template>
   <div class="drawer-container">
     <div>
-      <h3 class="drawer-title">系统布局配置</h3>
+      <h3 class="drawer-title">
+        系统布局配置
+      </h3>
 
       <div class="drawer-item">
         <span>主题色</span>

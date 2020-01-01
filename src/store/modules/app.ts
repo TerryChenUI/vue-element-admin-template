@@ -16,7 +16,11 @@ export interface IAppState {
   size: string
 }
 
-@Module({ dynamic: true, store, name: 'app' })
+@Module({
+  dynamic: true,
+  store,
+  name: 'app'
+})
 class App extends VuexModule implements IAppState {
   sidebar = {
     opened: getSidebarStatus() !== 'closed',
@@ -27,27 +31,37 @@ class App extends VuexModule implements IAppState {
 
   size = getSize() || 'medium'
 
-  @Action({ commit: 'CLOSE_SIDEBAR' })
+  @Action({
+    commit: 'CLOSE_SIDEBAR'
+  })
   CloseSideBar(withoutAnimation) {
     return withoutAnimation
   }
 
-  @Action({ commit: 'TOGGLE_SIDEBAR' })
+  @Action({
+    commit: 'TOGGLE_SIDEBAR'
+  })
   ToggleSideBar(withoutAnimation?: boolean) {
     return withoutAnimation
   }
 
-  @Action({ commit: 'TOGGLE_DEVICE' })
+  @Action({
+    commit: 'TOGGLE_DEVICE'
+  })
   ToggleDevice(device: DeviceType) {
     return device
   }
 
-  @Action({ commit: 'SET_LANGUAGE' })
+  @Action({
+    commit: 'SET_LANGUAGE'
+  })
   SetLanguage(language: string) {
     return language
   }
 
-  @Action({ commit: 'SET_SIZE' })
+  @Action({
+    commit: 'SET_SIZE'
+  })
   SetSize(size: string) {
     return size
   }

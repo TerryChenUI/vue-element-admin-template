@@ -1,22 +1,22 @@
-import Vue from 'vue';
-import { isArray, isString } from '@/utils/validate';
-import { ErrorLogModule } from '@/store/modules/errorLog';
-import settings from '@/settings';
+import Vue from 'vue'
+import { isArray, isString } from '@/utils/validate'
+import { ErrorLogModule } from '@/store/modules/errorLog'
+import settings from '@/settings'
 
 // you can set in settings.js
 // errorLog:'production' | ['production', 'development']
-const {errorLog: needErrorLog} = settings;
+const { errorLog: needErrorLog } = settings
 
 const checkNeed = () => {
-  const env = process.env.NODE_ENV as string;
+  const env = process.env.NODE_ENV as string
   if (isString(needErrorLog)) {
-    return env === needErrorLog;
+    return env === needErrorLog
   }
   if (isArray(needErrorLog)) {
-    return needErrorLog.includes(env);
+    return needErrorLog.includes(env)
   }
-  return false;
-};
+  return false
+}
 
 // you can set only in production env show the error-log
 if (checkNeed()) {
@@ -29,8 +29,8 @@ if (checkNeed()) {
         vm,
         info,
         url: window.location.href
-      });
-      console.error(err, info);
-    });
-  };
+      })
+      console.error(err, info)
+    })
+  }
 }

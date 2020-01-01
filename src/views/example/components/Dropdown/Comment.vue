@@ -1,7 +1,8 @@
 <template>
   <el-dropdown :show-timeout="100" trigger="click">
-    <el-button plain>{{ !commentDisabled?'评论已打开':'评论已关闭' }}
-      <i class="el-icon-caret-bottom el-icon--right"/>
+    <el-button plain
+      >{{ !commentDisabled ? '评论已打开' : '评论已关闭' }}
+      <i class="el-icon-caret-bottom el-icon--right" />
     </el-button>
     <el-dropdown-menu slot="dropdown" class="no-padding">
       <el-dropdown-item>
@@ -15,20 +16,21 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
-  @Component
-  export default class Comment extends Vue {
-    @Prop({default: false}) value!: boolean;
+@Component
+export default class Comment extends Vue {
+  @Prop({
+    default: false
+  })
+  value!: boolean
 
-    get commentDisabled() {
-      return this.value;
-    }
-
-    set commentDisabled(val) {
-      this.$emit('input', val);
-    }
-
+  get commentDisabled() {
+    return this.value
   }
-</script>
 
+  set commentDisabled(val) {
+    this.$emit('input', val)
+  }
+}
+</script>

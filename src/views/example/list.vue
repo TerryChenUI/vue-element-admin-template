@@ -85,17 +85,22 @@ export default class List extends Vue {
 
   getList() {
     this.listLoading = true
-    this.$services.articleList({ data: this.listQuery, method: 'get' }).then(response => {
-      const { code, data } = response
-      if (code === SUCCESS_STATUS) {
-        this.list = data.items
-        this.total = data.total
-      } else {
-        this.list = []
-        this.total = 0
-      }
-      this.listLoading = false
-    })
+    this.$services
+      .articleList({
+        data: this.listQuery,
+        method: 'get'
+      })
+      .then(response => {
+        const { code, data } = response
+        if (code === SUCCESS_STATUS) {
+          this.list = data.items
+          this.total = data.total
+        } else {
+          this.list = []
+          this.total = 0
+        }
+        this.listLoading = false
+      })
   }
 
   handleSizeChange(val) {

@@ -29,7 +29,14 @@ export default class Breadcrumb extends Vue {
 
     const first = matched[0]
     if (first && first.name!.trim().toLocaleLowerCase() !== 'Dashboard'.toLocaleLowerCase()) {
-      matched = [{ path: '/dashboard', meta: { title: '首页' } } as RouteRecord].concat(matched)
+      matched = [
+        {
+          path: '/dashboard',
+          meta: {
+            title: '首页'
+          }
+        } as RouteRecord
+      ].concat(matched)
     }
 
     this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)

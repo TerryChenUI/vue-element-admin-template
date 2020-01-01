@@ -64,7 +64,9 @@
           <span>密码 : 随便填</span>
         </div>
         <div class="tips">
-          <span style="margin-right:18px;"> 账号 : editor </span>
+          <span style="margin-right:18px;">
+            账号 : editor
+          </span>
           <span>密码 : 随便填</span>
         </div>
 
@@ -127,8 +129,20 @@ export default class Login extends Vue {
   }
 
   private loginRules = {
-    username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-    password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+    username: [
+      {
+        required: true,
+        trigger: 'blur',
+        validator: validateUsername
+      }
+    ],
+    password: [
+      {
+        required: true,
+        trigger: 'blur',
+        validator: validatePassword
+      }
+    ]
   }
 
   private passwordType: string = 'password'
@@ -138,7 +152,9 @@ export default class Login extends Vue {
   private redirect: string | undefined = undefined
 
   // watch
-  @Watch('$route', { immediate: true })
+  @Watch('$route', {
+    immediate: true
+  })
   private onRouteChange(route: Route) {
     this.redirect = route.query && (route.query.redirect as string)
   }
@@ -177,7 +193,9 @@ export default class Login extends Vue {
       if (valid) {
         this.loading = true
         await UserModule.LoginByUsername(this.loginForm)
-        this.$router.push({ path: this.redirect || '/' })
+        this.$router.push({
+          path: this.redirect || '/'
+        })
         setTimeout(() => {
           this.loading = false
         }, 0.5 * 1000)

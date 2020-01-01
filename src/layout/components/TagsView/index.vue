@@ -5,7 +5,11 @@
         v-for="tag in visitedViews"
         ref="tag"
         :class="isActive(tag) ? 'active' : ''"
-        :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
+        :to="{
+          path: tag.path,
+          query: tag.query,
+          fullPath: tag.fullPath
+        }"
         :key="tag.path"
         tag="span"
         class="tags-view-item"
@@ -16,11 +20,26 @@
         <span class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
       </router-link>
     </scroll-pane>
-    <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
-      <li @click="refreshSelectedTag(selectedTag)">刷新</li>
-      <li @click="closeSelectedTag(selectedTag)">关闭</li>
-      <li @click="closeOthersTags">关闭其它</li>
-      <li @click="closeAllTags">关闭所有</li>
+    <ul
+      v-show="visible"
+      :style="{
+        left: left + 'px',
+        top: top + 'px'
+      }"
+      class="contextmenu"
+    >
+      <li @click="refreshSelectedTag(selectedTag)">
+        刷新
+      </li>
+      <li @click="closeSelectedTag(selectedTag)">
+        关闭
+      </li>
+      <li @click="closeOthersTags">
+        关闭其它
+      </li>
+      <li @click="closeAllTags">
+        关闭所有
+      </li>
     </ul>
   </div>
 </template>
@@ -91,7 +110,9 @@ export default class TagsView extends Vue {
           fullPath: tagPath,
           path: tagPath,
           name: route.name,
-          meta: { ...route.meta }
+          meta: {
+            ...route.meta
+          }
         })
       }
       if (route.children) {
@@ -188,7 +209,9 @@ export default class TagsView extends Vue {
       // you can adjust it according to your needs.
       if (view.name === 'Dashboard') {
         // to reload home page
-        this.$router.replace({ path: '/redirect' + view.fullPath })
+        this.$router.replace({
+          path: '/redirect' + view.fullPath
+        })
       } else {
         this.$router.push('/')
       }

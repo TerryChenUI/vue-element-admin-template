@@ -10,7 +10,9 @@
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
         <el-menu-item
           :index="resolvePath(onlyOneChild.path)"
-          :class="{ 'submenu-title-noDropdown': !isNest }"
+          :class="{
+            'submenu-title-noDropdown': !isNest
+          }"
         >
           <template v-if="onlyOneChild.meta">
             <svg-icon v-if="onlyOneChild.meta.icon" :name="onlyOneChild.meta.icon || item.meta.icon" />
@@ -66,9 +68,19 @@ import FixiOSBug from './FixiOSBug'
   mixins: [FixiOSBug]
 })
 export default class SidebarItem extends Vue {
-  @Prop({ required: true, default: {} }) item!: RouteConfig
-  @Prop({ default: false }) isNest!: boolean
-  @Prop({ default: '' }) basePath!: string
+  @Prop({
+    required: true,
+    default: {}
+  })
+  item!: RouteConfig
+  @Prop({
+    default: false
+  })
+  isNest!: boolean
+  @Prop({
+    default: ''
+  })
+  basePath!: string
 
   onlyOneChild: null = null
 
@@ -90,7 +102,11 @@ export default class SidebarItem extends Vue {
 
     // Show parent if there are no child router to display
     if (showingChildren.length === 0) {
-      this.onlyOneChild = { ...parent, path: '', noShowingChildren: true }
+      this.onlyOneChild = {
+        ...parent,
+        path: '',
+        noShowingChildren: true
+      }
       return true
     }
 

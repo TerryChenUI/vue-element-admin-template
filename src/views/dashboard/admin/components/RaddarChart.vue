@@ -1,50 +1,66 @@
 <template>
-  <div :class="className" :style="{height:height,width:width}"/>
+  <div
+    :class="className"
+    :style="{
+      height: height,
+      width: width
+    }"
+  />
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
-import echarts from 'echarts';
-import { debounce } from '@/utils';
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import echarts from 'echarts'
+import { debounce } from '@/utils'
 // echarts theme
-require('echarts/theme/macarons');
+require('echarts/theme/macarons')
 
-const animationDuration = 3000;
+const animationDuration = 3000
 
 @Component
 export default class RaddarChart extends Vue {
-  @Prop({default: 'chart'}) className!: string;
-  @Prop({default: '100%'}) width!: string;
-  @Prop({default: '300px'}) height!: string;
+  @Prop({
+    default: 'chart'
+  })
+  className!: string
+  @Prop({
+    default: '100%'
+  })
+  width!: string
+  @Prop({
+    default: '300px'
+  })
+  height!: string
 
-  chart: any = null;
+  chart: any = null
   resizeHandler = debounce(() => {
     if (this.chart) {
-      this.chart.resize();
+      this.chart.resize()
     }
-  }, 100);
+  }, 100)
 
   mounted() {
-    this.initChart();
-    window.addEventListener('resize', this.resizeHandler);
+    this.initChart()
+    window.addEventListener('resize', this.resizeHandler)
   }
 
   beforeDestroy() {
     if (!this.chart) {
-      return;
+      return
     }
-    window.removeEventListener('resize', this.resizeHandler);
-    this.chart.dispose();
-    this.chart = null;
+    window.removeEventListener('resize', this.resizeHandler)
+    this.chart.dispose()
+    this.chart = null
   }
 
   initChart() {
-    this.chart = echarts.init(this.$el as any, 'macarons');
+    this.chart = echarts.init(this.$el as any, 'macarons')
 
     this.chart.setOption({
       tooltip: {
         trigger: 'axis',
-        axisPointer: { // 坐标轴指示器，坐标轴触发有效
+        axisPointer: {
+          // 坐标轴指示器，坐标轴触发有效
           type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
         }
       },
@@ -63,12 +79,30 @@ export default class RaddarChart extends Vue {
           }
         },
         indicator: [
-          {name: 'Sales', max: 10000},
-          {name: 'Administration', max: 20000},
-          {name: 'Information Techology', max: 20000},
-          {name: 'Customer Support', max: 20000},
-          {name: 'Development', max: 20000},
-          {name: 'Marketing', max: 20000}
+          {
+            name: 'Sales',
+            max: 10000
+          },
+          {
+            name: 'Administration',
+            max: 20000
+          },
+          {
+            name: 'Information Techology',
+            max: 20000
+          },
+          {
+            name: 'Customer Support',
+            max: 20000
+          },
+          {
+            name: 'Development',
+            max: 20000
+          },
+          {
+            name: 'Marketing',
+            max: 20000
+          }
         ]
       },
       legend: {
@@ -76,39 +110,39 @@ export default class RaddarChart extends Vue {
         bottom: '10',
         data: ['Allocated Budget', 'Expected Spending', 'Actual Spending']
       },
-      series: [{
-        type: 'radar',
-        symbolSize: 0,
-        areaStyle: {
-          normal: {
-            shadowBlur: 13,
-            shadowColor: 'rgba(0,0,0,.2)',
-            shadowOffsetX: 0,
-            shadowOffsetY: 10,
-            opacity: 1
-          }
-        },
-        data: [
-          {
-            value: [5000, 7000, 12000, 11000, 15000, 14000],
-            name: 'Allocated Budget'
+      series: [
+        {
+          type: 'radar',
+          symbolSize: 0,
+          areaStyle: {
+            normal: {
+              shadowBlur: 13,
+              shadowColor: 'rgba(0,0,0,.2)',
+              shadowOffsetX: 0,
+              shadowOffsetY: 10,
+              opacity: 1
+            }
           },
-          {
-            value: [4000, 9000, 15000, 15000, 13000, 11000],
-            name: 'Expected Spending'
-          },
-          {
-            value: [5500, 11000, 12000, 15000, 12000, 12000],
-            name: 'Actual Spending'
-          }
-        ],
-        animationDuration
-      }]
-    });
+          data: [
+            {
+              value: [5000, 7000, 12000, 11000, 15000, 14000],
+              name: 'Allocated Budget'
+            },
+            {
+              value: [4000, 9000, 15000, 15000, 13000, 11000],
+              name: 'Expected Spending'
+            },
+            {
+              value: [5500, 11000, 12000, 15000, 12000, 12000],
+              name: 'Actual Spending'
+            }
+          ],
+          animationDuration
+        }
+      ]
+    })
   }
 }
 </script>
 
-<style rel="stylesheet/less" lang="less" scoped>
-
-</style>
+<style rel="stylesheet/less" lang="less" scoped></style>

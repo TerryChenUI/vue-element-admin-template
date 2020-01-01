@@ -53,7 +53,7 @@ export default {
     error: {
       onlyImg: 'Image only',
       outOfSize: 'Image exceeds size limit: ',
-      lowestPx: 'Image\'s size is too low. Expected at least: '
+      lowestPx: "Image's size is too low. Expected at least: "
     }
   },
   ro: {
@@ -118,7 +118,8 @@ export default {
   fr: {
     hint: 'Cliquez ou glissez le fichier ici.',
     loading: 'Téléchargement…',
-    noSupported: 'Votre navigateur n\'est pas supporté. Utilisez IE10 + ou un autre navigateur s\'il vous plaît.',
+    noSupported:
+      "Votre navigateur n'est pas supporté. Utilisez IE10 + ou un autre navigateur s'il vous plaît.",
     success: 'Téléchargement réussit',
     fail: 'Téléchargement echoué',
     preview: 'Aperçu',
@@ -130,8 +131,8 @@ export default {
     },
     error: {
       onlyImg: 'Image uniquement',
-      outOfSize: 'L\'image sélectionnée dépasse la taille maximum: ',
-      lowestPx: 'L\'image sélectionnée est trop petite. Dimensions attendues: '
+      outOfSize: "L'image sélectionnée dépasse la taille maximum: ",
+      lowestPx: "L'image sélectionnée est trop petite. Dimensions attendues: "
     }
   },
   nl: {
@@ -229,4 +230,4 @@ export default {
       lowestPx: '画像が小さすぎます。最小サイズ: '
     }
   }
-};
+}

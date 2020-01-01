@@ -1,44 +1,59 @@
 <template>
-  <div :class="className" :style="{height:height,width:width}"/>
+  <div
+    :class="className"
+    :style="{
+      height: height,
+      width: width
+    }"
+  />
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
-import echarts from 'echarts';
-import { debounce } from '@/utils';
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import echarts from 'echarts'
+import { debounce } from '@/utils'
 // echarts theme
-require('echarts/theme/macarons');
+require('echarts/theme/macarons')
 
 @Component
 export default class PieChart extends Vue {
-  @Prop({default: 'chart'}) className!: string;
-  @Prop({default: '100%'}) width!: string;
-  @Prop({default: '300px'}) height!: string;
+  @Prop({
+    default: 'chart'
+  })
+  className!: string
+  @Prop({
+    default: '100%'
+  })
+  width!: string
+  @Prop({
+    default: '300px'
+  })
+  height!: string
 
-  chart: any = null;
+  chart: any = null
   resizeHandler = debounce(() => {
     if (this.chart) {
-      this.chart.resize();
+      this.chart.resize()
     }
-  }, 100);
+  }, 100)
 
   mounted() {
-    this.initChart();
+    this.initChart()
 
-    window.addEventListener('resize', this.resizeHandler);
+    window.addEventListener('resize', this.resizeHandler)
   }
 
   beforeDestroy() {
     if (!this.chart) {
-      return;
+      return
     }
-    window.removeEventListener('resize', this.resizeHandler);
-    this.chart.dispose();
-    this.chart = null;
+    window.removeEventListener('resize', this.resizeHandler)
+    this.chart.dispose()
+    this.chart = null
   }
 
   initChart() {
-    this.chart = echarts.init(this.$el as any, 'macarons');
+    this.chart = echarts.init(this.$el as any, 'macarons')
 
     this.chart.setOption({
       tooltip: {
@@ -59,18 +74,32 @@ export default class PieChart extends Vue {
           radius: [15, 95],
           center: ['50%', '38%'],
           data: [
-            {value: 320, name: 'Industries'},
-            {value: 240, name: 'Technology'},
-            {value: 149, name: 'Forex'},
-            {value: 100, name: 'Gold'},
-            {value: 59, name: 'Forecasts'}
+            {
+              value: 320,
+              name: 'Industries'
+            },
+            {
+              value: 240,
+              name: 'Technology'
+            },
+            {
+              value: 149,
+              name: 'Forex'
+            },
+            {
+              value: 100,
+              name: 'Gold'
+            },
+            {
+              value: 59,
+              name: 'Forecasts'
+            }
           ],
           animationEasing: 'cubicInOut',
           animationDuration: 2600
         }
       ]
-    });
+    })
   }
 }
 </script>
-

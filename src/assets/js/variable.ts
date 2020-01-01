@@ -7,4 +7,4 @@ export default {
   subMenuBg: '#1f2d3d',
   subMenuHover: '#001528',
   sideBarWidth: '180px'
-};
+}

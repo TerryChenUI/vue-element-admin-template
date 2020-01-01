@@ -1,13 +1,13 @@
 <template>
   <div class="dashboard-container">
-    <component :is="currentRole"/>
+    <component :is="currentRole" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import adminDashboard from './admin/index.vue';
-import editorDashboard from './editor/index.vue';
+import { Component, Vue } from 'vue-property-decorator'
+import adminDashboard from './admin/index.vue'
+import editorDashboard from './editor/index.vue'
 
 @Component({
   components: {
@@ -16,17 +16,16 @@ import editorDashboard from './editor/index.vue';
   }
 })
 export default class Dashboard extends Vue {
-  currentRole: string = 'adminDashboard';
+  currentRole: string = 'adminDashboard'
 
   get roles() {
-    return this.$store.getters.roles;
+    return this.$store.getters.roles
   }
 
   created() {
     if (!this.roles.includes('admin')) {
-      this.currentRole = 'editorDashboard';
+      this.currentRole = 'editorDashboard'
     }
   }
-
 }
 </script>

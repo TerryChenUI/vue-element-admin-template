@@ -1,5 +1,10 @@
 <template>
-  <div :class="{ show: show }" class="header-search">
+  <div
+    :class="{
+      show: show
+    }"
+    class="header-search"
+  >
     show {{ show }}
     <svg-icon name="search" class="search-icon" @click="click" />
     <el-select

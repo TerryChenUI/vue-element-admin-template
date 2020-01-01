@@ -4,11 +4,11 @@
  */
 
 export interface IDataValues {
-  year: string;
-  value: number;
+  year: string
+  value: number
 }
 
 export interface IListQuery {
-  page: number;
-  limit: number;
+  page: number
+  limit: number
 }

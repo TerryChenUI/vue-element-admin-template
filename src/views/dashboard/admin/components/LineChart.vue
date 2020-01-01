@@ -1,67 +1,88 @@
 <template>
-  <div :class="className" :style="{height:height,width:width}"/>
+  <div
+    :class="className"
+    :style="{
+      height: height,
+      width: width
+    }"
+  />
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
-import echarts from 'echarts';
-import { debounce } from '@/utils';
+import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
+import echarts from 'echarts'
+import { debounce } from '@/utils'
 // echarts theme
-require('echarts/theme/macarons');
+require('echarts/theme/macarons')
 
 @Component
 export default class LineChart extends Vue {
-  @Prop({default: 'chart'}) className!: string;
-  @Prop({default: '100%'}) width!: string;
-  @Prop({default: '350px'}) height!: string;
-  @Prop({default: true}) autoResize!: boolean;
-  @Prop({required: true}) chartData!: any;
+  @Prop({
+    default: 'chart'
+  })
+  className!: string
+  @Prop({
+    default: '100%'
+  })
+  width!: string
+  @Prop({
+    default: '350px'
+  })
+  height!: string
+  @Prop({
+    default: true
+  })
+  autoResize!: boolean
+  @Prop({
+    required: true
+  })
+  chartData!: any
 
-  chart: any = null;
-  sidebarElm: any = null;
+  chart: any = null
+  sidebarElm: any = null
   resizeHandler = debounce(() => {
     if (this.chart) {
-      this.chart.resize();
+      this.chart.resize()
     }
-  }, 100);
+  }, 100)
 
-  @Watch('chartData', {deep: true})
+  @Watch('chartData', { deep: true })
   onChartDataChange(val) {
-    this.setOptions(val);
+    this.setOptions(val)
   }
 
   mounted() {
-    this.initChart();
+    this.initChart()
     if (this.autoResize) {
-      window.addEventListener('resize', this.resizeHandler);
+      window.addEventListener('resize', this.resizeHandler)
     }
 
     // 监听侧边栏的变化
-    this.sidebarElm = document.getElementsByClassName('sidebar-container')[0] as HTMLDivElement;
-    this.sidebarElm && this.sidebarElm.addEventListener('transitionend', this.sidebarResizeHandler);
+    this.sidebarElm = document.getElementsByClassName('sidebar-container')[0] as HTMLDivElement
+    this.sidebarElm && this.sidebarElm.addEventListener('transitionend', this.sidebarResizeHandler)
   }
 
   beforeDestroy() {
     if (!this.chart) {
-      return;
+      return
     }
     if (this.autoResize) {
-      window.removeEventListener('resize', this.resizeHandler);
+      window.removeEventListener('resize', this.resizeHandler)
     }
 
-    this.sidebarElm && this.sidebarElm.removeEventListener('transitionend', this.sidebarResizeHandler);
+    this.sidebarElm && this.sidebarElm.removeEventListener('transitionend', this.sidebarResizeHandler)
 
-    this.chart.dispose();
-    this.chart = null;
+    this.chart.dispose()
+    this.chart = null
   }
 
   sidebarResizeHandler(e) {
     if (e.propertyName === 'width') {
-      this.resizeHandler();
+      this.resizeHandler()
     }
   }
 
-  setOptions({expectedData = [], actualData = []} = {}) {
+  setOptions({ expectedData = [], actualData = [] } = {}) {
     this.chart.setOption({
       xAxis: {
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -92,22 +113,24 @@ export default class LineChart extends Vue {
       legend: {
         data: ['expected', 'actual']
       },
-      series: [{
-        name: 'expected', itemStyle: {
-          normal: {
-            color: '#FF005A',
-            lineStyle: {
+      series: [
+        {
+          name: 'expected',
+          itemStyle: {
+            normal: {
               color: '#FF005A',
-              width: 2
+              lineStyle: {
+                color: '#FF005A',
+                width: 2
+              }
             }
-          }
+          },
+          smooth: true,
+          type: 'line',
+          data: expectedData,
+          animationDuration: 2800,
+          animationEasing: 'cubicInOut'
         },
-        smooth: true,
-        type: 'line',
-        data: expectedData,
-        animationDuration: 2800,
-        animationEasing: 'cubicInOut'
-      },
         {
           name: 'actual',
           smooth: true,
@@ -127,17 +150,16 @@ export default class LineChart extends Vue {
           data: actualData,
           animationDuration: 2800,
           animationEasing: 'quadraticOut'
-        }]
-    });
+        }
+      ]
+    })
   }
 
   initChart() {
-    this.chart = echarts.init(this.$el as any, 'macarons');
-    this.setOptions(this.chartData);
+    this.chart = echarts.init(this.$el as any, 'macarons')
+    this.setOptions(this.chartData)
   }
 }
 </script>
 
-<style rel="stylesheet/less" lang="less" scoped>
-
-</style>
+<style rel="stylesheet/less" lang="less" scoped></style>

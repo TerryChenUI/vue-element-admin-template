@@ -6,8 +6,8 @@
 </template>
 
 <script lang="ts">
-import {Vue, Component} from 'vue-property-decorator';
-import ServiceWorkerUpdatePopup from '@/pwa/components/ServiceWorkerUpdatePopup.vue';
+import { Vue, Component } from 'vue-property-decorator'
+import ServiceWorkerUpdatePopup from '@/pwa/components/ServiceWorkerUpdatePopup.vue'
 
 @Component({
   name: 'App',
@@ -19,5 +19,5 @@ export default class App extends Vue {}
 </script>
 
 <style lang="less">
-  @import "~@/assets/less/app.less";
+@import '~@/assets/less/app.less';
 </style>
